@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React,{ useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { READ_ITEM } from '../../../Types';
 import { setListItems } from '../../slice/itemSlice';
 
 

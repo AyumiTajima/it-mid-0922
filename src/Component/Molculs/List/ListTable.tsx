@@ -93,7 +93,7 @@ const ListTable = () => {
                         </a>
                     </td>
                     <td  className='border-r bg-info'>{item.divisionName}</td>
-                    <td  className='border-r bg-info'>{item.jinmaiName}</td>
+                    <td  className='border-r bg-info'>{item.jinmeiName}</td>
                     <td className='border-r bg-info'>
                     <td className='border-r bg-info'>24</td>
                     <td className='border-r bg-info'>25</td>

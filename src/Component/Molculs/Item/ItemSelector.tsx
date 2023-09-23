@@ -12,7 +12,7 @@ const ItemSelector = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
-    // console.log({...editedItem})
+    console.log({...editedItem})
     switch ( name )  {
       case "priority": dispatch(editItem({...editedItem, priority: value}));
             break;
@@ -24,11 +24,11 @@ const ItemSelector = () => {
             break;
             case "emergency": dispatch(editItem({...editedItem, emergency: value}));
             break;
-            case "investmentEfficiancy": dispatch(editItem({...editedItem, investmentEfficiancy: value}));
+            case "investmentEfficiency": dispatch(editItem({...editedItem, investmentEfficiency: value}));
             break;
             case "digitalize": dispatch(editItem({...editedItem, digitalize: !editedItem.digitalize}));
             break;
-            case "transformation": dispatch(editItem({...editedItem, transformation: !editedItem.transformation}));
+            case "transFormation": dispatch(editItem({...editedItem, transFormation: !editedItem.transFormation}));
             break;
             case "workStyleReform": dispatch(editItem({...editedItem, workStyleReform: !editedItem.workStyleReform}));
             break;
@@ -38,8 +38,8 @@ const ItemSelector = () => {
             break;
             case "policy": dispatch(editItem({...editedItem, policy: value}));
             break;
-            case "investReason": dispatch(editItem({...editedItem, investReason: value}));
-            break;
+            // case "investReason": dispatch(editItem({...editedItem, investReason: value}));
+            // break;
     }
   }
       //ラジオボタンの項目
@@ -64,7 +64,7 @@ const ItemSelector = () => {
   
 
   return (
-        <div className='w-full mx-3 font-bold'>
+        <div className='w-full mx-3'>
             <div>
               <label className="label-text flex whitespace-nowrap ">
                 <span>♦優先順位　　 &nbsp;</span>
@@ -80,7 +80,7 @@ const ItemSelector = () => {
                           value={radio.value} 
                           checked={radio.value === editedItem.priority}  
                           onChange={handleInputChange}
-                          className="radio checked:bg-red-500" />
+                          className="radio checked:bg-dark" />
                     </label>
                   </div>
                   )
@@ -103,7 +103,7 @@ const ItemSelector = () => {
                   <div className="flex items-center">
                     <label className="cursor-pointer flex items-center">
                         <span className="label-text px-1">{radio.label}</span> 
-                        <input type="radio" name = "investPurpose" value={radio.value} checked={radio.value === editedItem.investPurpose} onChange={handleInputChange} className="radio checked:bg-red-500" />
+                        <input type="radio" name = "investPurpose" value={radio.value} checked={radio.value === editedItem.investPurpose} onChange={handleInputChange} className="radio checked:bg-dark" />
                     </label>
                   </div>
                   )
@@ -117,7 +117,7 @@ const ItemSelector = () => {
                   <div className="flex items-center">
                     <label className="cursor-pointer flex items-center">
                         <span className="label-text px-1">{radio.label}</span> 
-                        <input type="radio" name = "emergency" value={radio.value} checked={radio.value === editedItem.emergency} onChange={handleInputChange} className="radio checked:bg-red-500" />
+                        <input type="radio" name = "emergency" value={radio.value} checked={radio.value === editedItem.emergency} onChange={handleInputChange} className="radio checked:bg-dark" />
                     </label>
                   </div>
                   )
@@ -131,7 +131,7 @@ const ItemSelector = () => {
                   <div className="flex items-center">
                     <label className="cursor-pointer flex items-center">
                         <span className="label-text px-1">{radio.label}</span> 
-                        <input type="radio" name = "investmentEfficiancy" value={radio.value} checked={radio.value === editedItem.investmentEfficiancy} onChange={handleInputChange} className="radio checked:bg-red-500" />
+                        <input type="radio" name = "investmentEfficiency" value={radio.value} checked={radio.value === editedItem.investmentEfficiency} onChange={handleInputChange} className="radio checked:bg-dark" />
                     </label>
                   </div>
                   )
@@ -143,7 +143,7 @@ const ItemSelector = () => {
               </label>
               <label className="label-text flex  ">
                 ♦変革的改善　 &nbsp;
-                <input type="checkbox" name = "transformation" checked={editedItem.transformation} onChange={handleInputChange} className="checkbox checkbox-neutral" />                      
+                <input type="checkbox" name = "transformation" checked={editedItem.transFormation} onChange={handleInputChange} className="checkbox checkbox-neutral" />                      
               </label>
               <label className="label-text flex  ">
                 ♦働き方改革　 &nbsp;
@@ -169,7 +169,7 @@ const ItemSelector = () => {
                   <div className="flex items-center">
                     <label className="cursor-pointer flex items-center">
                         <span className="label-text px-1">{radio.label}</span> 
-                        <input type="radio" name = "investReason" value={radio.value} checked={radio.value === editedItem.investReason} onChange={handleInputChange} className="radio checked:bg-red-500" />
+                        <input type="radio" name = "investReason" value={radio.value} checked={radio.value === editedItem.investReason} onChange={handleInputChange} className="radio checked:bg-dark" />
                     </label>
                   </div>
                   )

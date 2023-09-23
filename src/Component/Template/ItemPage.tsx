@@ -11,6 +11,7 @@ import ItemBtns from '../Molculs/Item/ItemBtns'
 import ItemJudgement from '../Molculs/Item/ItemJudgement'
 import { Route, Routes } from 'react-router-dom'
 import ChangeBtn from '../Atom/Btn/ItemBtn/ChangeBtn'
+import DropAddFiles from '../Molculs/Item/DropAddFiles'
 
 const ItemPage = () => {
   return (
@@ -21,7 +22,7 @@ const ItemPage = () => {
       <div className='flex flex-row h-4/7'>
         <div className='w-1/3 p-1'>
           <ItemUserInput/>
-          {/* <ItemTable/> */}
+          <ItemTable/>
         </div>
         <div className='w-1/3 p-1'>
           <ItemSelector/>         
@@ -29,7 +30,8 @@ const ItemPage = () => {
           <ItemCostInput/>
         </div>
         <div className='w-1/3 p-1'>
-          <ItemFile/>
+          <DropAddFiles />
+          {/* <ItemFile/> */}
           <ItemExtraFile/>
         </div>
       </div>

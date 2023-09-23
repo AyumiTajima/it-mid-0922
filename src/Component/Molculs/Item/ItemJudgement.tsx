@@ -2,6 +2,7 @@ import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { editItem } from '../../slice/itemSlice';
 import { RADIO } from '../../../Types';
+import HandleInputChange from '../../feature/item/HandleInputChange';
 
 const ItemJudgement = () => {
 
@@ -86,13 +87,29 @@ const ItemJudgement = () => {
         },
       ]
 
+
+//関数を定義
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { dataset, value } = e.target
+    const name = dataset.name
+
+    console.log({...editedItem})
+    switch ( name )  {
+      case "judgementComment": dispatch(editItem({...editedItem, judgementComment: value}));
+      break;
+      case "judgementMemo": dispatch(editItem({...editedItem, judgementMemo: value}));
+      break;
+      }
+    }
+
+    
   return (
     <>
-        <div className='border border-black rounded-lg flex font-bold'>
+        <div className='border border-black rounded-lg flex'>
             <div className='mx-1'>
                 <div className=''>
                     <div className='mx-1'>
-                        <p>★判定</p>
+                        <p>判定</p>
                         <div className='flex items-center'>
                         {judgementRadioButton.map(radio => {
                             return(
@@ -102,7 +119,7 @@ const ItemJudgement = () => {
                                     type="radio" 
                                     name = "judgement" 
                                     value={radio.value} 
-                                    checked={radio.value === editedItem.judgement}  
+                                    // checked={radio.value === editedItem.judgement}  
                                     onChange={handleRadioChange}
                                     className="radio checked:bg-dark" />
                                 </label>
@@ -111,7 +128,7 @@ const ItemJudgement = () => {
                         </div>
                     </div>
                     <div className='mx-1'>
-                        <p>★最終判定</p>
+                        <p>最終判定</p>
                         <div className='flex items-center'>
                         {judgementRadioButton.map(radio => {
                             return(
@@ -132,12 +149,12 @@ const ItemJudgement = () => {
 
                 </div>
                 <div className='my-2 mx-1'>
-                    <textarea className="textarea textarea-bordered textarea-sm" placeholder="コメント"></textarea>
+                    <textarea name = "judgementComment" className="textarea textarea-bordered textarea-sm" placeholder="コメント" onChange={handleInputChange}></textarea>
                 </div>
             </div>
             <div className='mx-1'>
                   <div className='mx-1'>
-                    <p>★DX/IT</p>
+                    <p>DX/IT</p>
                     <div className='flex items-center'>
                       {dxitRadioButton.map(radio => {
                         return(
@@ -156,7 +173,7 @@ const ItemJudgement = () => {
                     </div>
                   </div>
                     <div className='mx-1'>
-                        <p>★評価ランク</p>
+                        <p>評価ランク</p>
                         <div className='flex items-center'>
                         {rateRadioButton.map(radio => {
                             return(
@@ -175,7 +192,7 @@ const ItemJudgement = () => {
                         </div>
                     </div>
                 <div className='my-2 mx-1'>
-                    <textarea className="textarea textarea-bordered textarea-sm" placeholder="memo"></textarea>
+                    <textarea data-name = "judgementMemo" className="textarea textarea-bordered textarea-sm" placeholder="memo" onChange={handleInputChange}></textarea>
                 </div>
             </div>
         </div>

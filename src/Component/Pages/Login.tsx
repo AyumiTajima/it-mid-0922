@@ -18,8 +18,14 @@ const Login = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    dispatch(setLogin({...loginUser ,userId: value})) 
+    const { name, value } = e.target
+    switch ( name ) {
+      case "useId": dispatch(setLogin({...loginUser ,userId: value})) 
+      break;
+      case "password": dispatch(setLogin({...loginUser, password: value}))
+
+    }
+    
   };
 
 
@@ -36,13 +42,13 @@ const Login = () => {
           <label className="label">
             <span className="label-text">User ID</span>
           </label>
-          <input type="text" placeholder="User ID" className="input input-bordered" value={loginUser.userId} onChange={handleInputChange}/>
+          <input type="text" name="useId" placeholder="User ID" className="input input-bordered" value={loginUser.userId} onChange={handleInputChange}/>
         </div>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Password</span>
           </label>
-          <input type="text" placeholder="password" className="input input-bordered" />
+          <input type="text" name="password"  placeholder="password" className="input input-bordered" value={loginUser.password} onChange={handleInputChange} />
           {/* <label className="label">
             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
           </label> */}

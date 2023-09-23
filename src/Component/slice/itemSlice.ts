@@ -2,9 +2,18 @@ import { createSlice,PayloadAction, createAsyncThunk, AnyAction, Dispatch } from
 import { useState, useEffect } from "react";
 import initialData from "../../damydata/initialData";
 import axios from "axios"
-import { ITEM, ITEM_STATE, READ_ITEM, USER_MASTER } from "../../Types";
+import { ITEM, ITEM_STATE, } from "../../Types";
 import { AsyncThunkFulfilledActionCreator } from "@reduxjs/toolkit/dist/createAsyncThunk";
 import { ok } from "assert";
+
+//---------現在の翌年度を定義する（初期値の年度設定に使用）---------//
+//年度表記
+const date = new Date();
+  // 現在から3ヶ月前にセット
+  date.setMonth(date.getMonth() - 3);
+  //fiscalYearの初期値を翌年度とする
+  const fiscalYear = date.getFullYear() + 1
+
 
 //---------初期値設定---------//
 export const initialState: ITEM_STATE = {
@@ -13,12 +22,11 @@ export const initialState: ITEM_STATE = {
         itemId: 0,
         itemMTPMainId: 0,                   //IT中計ID（IT Mid-term Manegement Plan）      number
         itemMTPSubId: 0,                    //IT中計サブID（IT Mid-term Manegement Plan）      number
-        // budgetId: {},	                     //予算ID　　　number
         wholeStatusCode: "",                   //全体ステータスコード  string
         individualStatusCode:"",              //個別ステータスコード
         individualStatusName: "",                   //個別ステータスの名前  string
-        itemClass: "",		              	//種別        string   
-        jinmaiName: "",                         //担当者名    string
+        itemClass: "新規登録",		              	//種別        string   
+        jinmeiName: "",                         //担当者名    string
         departmentCode: "",               //部署コード  string
         divisionName: "",                 //部名
         departmentName: "",               //室名        string
@@ -29,9 +37,9 @@ export const initialState: ITEM_STATE = {
         budgetNo: "",                     //予算No      string
         billNo: "",                       //決裁No     string       string
         budget: [{
-            budgetId: 0,	                     //予算ID　　　number
+            budgetId: 0,                         //予算ID　　　number
             item: 0,                           //itemIdと同値　number
-            fiscalYear: 0,                     //対象年度　　　　　number
+            fiscalYear,                     //対象年度　　　　　number
             investForHard: 0,                  //投資ハード　　number
             investForSoft:0,                   //投資ソフト　　number
             investTotal:0,                     //投資総額　　　number
@@ -39,19 +47,20 @@ export const initialState: ITEM_STATE = {
         },],
         lossCost: "",                   //年間効果    string
         recoveryMonths: "",             //投資回収年月    string
-        file: "",                       //説明資料    string ファイル名
-        subFiles: [{
-            id:null,                    //サブファイルID
-            path:""                     //サブファイルパス
-        }],                 //添付資料    string[] ファイル名
+        file: "", 
+        subFiles: "",                      //説明資料    string ファイル名
+        // subFiles: [{
+        //     id:null,                    //サブファイルID
+        //     path:""                     //サブファイルパス
+        // }],                 //添付資料    string[] ファイル名
         priority: "",                   //優先順位    string
         newScheme: false,                 //新スキーム  boolean
         deliberation: false,              //審議会      boolean
         investPurpose: "",              //投資目的    string 
         emergency: "",                  //緊急度      string
-        investmentEfficiancy: "",                 //投資効率    string 
+        investmentEfficiency: "",                 //投資効率    string 
         digitalize: false,                //デジタル化  boolean
-        transformation: false,            //変革的改善  boolean
+        transFormation: false,            //変革的改善  boolean
         workStyleReform: false,           //働き方改革  boolean
         tmcSync: false,                    //TMC同期      boolean
         tyUnique: false,                  //TY独自      boolean
@@ -80,14 +89,13 @@ export const initialState: ITEM_STATE = {
     
     editedItem: {
         itemId: 0,
-        itemMTPMainId: 0,                   //IT中計ID（IT Mid-term Manegement Plan）      number
-        itemMTPSubId: 0,                    //IT中計サブID（IT Mid-term Manegement Plan）      number
-        // budgetId: {},	                     //予算ID　　　number
+        itemMTPMainId: 23,                   //IT中計ID（IT Mid-term Manegement Plan）      number
+        itemMTPSubId: 1,                    //IT中計サブID（IT Mid-term Manegement Plan）      number
         wholeStatusCode: "",                   //全体ステータスコード  string
         individualStatusCode:"",              //個別ステータスコード
         individualStatusName: "",                   //個別ステータスの名前  string
-        itemClass: "",		              	//種別        string   
-        jinmaiName: "",                         //担当者名    string
+        itemClass: "新規登録",		              	//種別        string   
+        jinmeiName: "",                         //担当者名    string
         departmentCode: "",               //部署コード  string
         divisionName: "",                 //部名
         departmentName: "",               //室名        string
@@ -98,33 +106,34 @@ export const initialState: ITEM_STATE = {
         budgetNo: "",                     //予算No      string
         billNo: "",                       //決裁No     string       string
         budget: [{
-            budgetId: 0,	                     //予算ID　　　number
+            budgetId: 0,                         //予算ID　　　number
             item: 0,                           //itemIdと同値　number
-            fiscalYear: 0,                     //対象年度　　　　　number
-            investForHard: 0,                  //投資ハード　　number
-            investForSoft:0,                   //投資ソフト　　number
-            investTotal:0,                     //投資総額　　　number
-            expenses:0,                        //経費総額      number
+            fiscalYear,                     //対象年度　　　　　number
+            investForHard: 1,                  //投資ハード　　number
+            investForSoft:2,                   //投資ソフト　　number
+            investTotal:3,                     //投資総額　　　number
+            expenses:4,                        //経費総額      number
         },],
         lossCost: "",                   //年間効果    string
         recoveryMonths: "",             //投資回収年月    string
         file: "",                       //説明資料    string ファイル名
-        subFiles: [{
-            id:null,                    //サブファイルID
-            path:""                     //サブファイルパス
-        }],                 //添付資料    string[] ファイル名
+        subFiles: "",
+        // [{
+        //     id:null,                    //サブファイルID
+        //     path:""                     //サブファイルパス
+        // }],                 //添付資料    string[] ファイル名
         priority: "",                   //優先順位    string
         newScheme: false,                 //新スキーム  boolean
         deliberation: false,              //審議会      boolean
         investPurpose: "",              //投資目的    string 
         emergency: "",                  //緊急度      string
-        investmentEfficiancy: "",                 //投資効率    string 
+        investmentEfficiency: "",                 //投資効率    string 
         digitalize: false,                //デジタル化  boolean
-        transformation: false,            //変革的改善  boolean
+        transFormation: false,            //変革的改善  boolean
         workStyleReform: false,           //働き方改革  boolean
         tmcSync: false,                    //TMC同期      boolean
         tyUnique: false,                  //TY独自      boolean
-        policy: "",                    	//方針軸でのグループ化  boolean　
+        policy: "",                    	//方針軸でのグループ化  string
         investReason: "",                 //分類        string　
         judgement: "",                    //一次判定    string? number? masterもちさせるなら、number
         finalJudgement: "",               //最終判定    string? number? masterもちさせるなら、number
@@ -144,6 +153,7 @@ export const initialState: ITEM_STATE = {
         approver3: "",                    //承認者3  string
         approver3Code: "",               //承認者3のコード  string
         plannedYear: "",
+    
     },
 
     //フィルター
@@ -186,7 +196,7 @@ export const fetchAsyncGetItemsData = createAsyncThunk(
             `http://pc14661:8000/api/item/`,
             {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
                 }
             }
         )
@@ -204,6 +214,7 @@ export const fetchAsyncGetItemsFilteredDepartment = createAsyncThunk(
             `${process.env.REACT_APP_API_URL_ITEM}?department-code = ${department}`,
             {
                 headers: {
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
                 },               
 
@@ -223,6 +234,7 @@ export const fetchAsyncGetItemsFilteredDepStatus = createAsyncThunk(
             `${process.env.REACT_APP_API_URL_ITEM}?department-code=${department}&status-code=${status}`,
             {
                 headers: {
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
                 },               
 
@@ -242,6 +254,7 @@ export const fetchAsyncGetEditedItem = createAsyncThunk(
             `${process.env.REACT_APP_API_URL_ITEM}/${id}`,
             {
                 headers: {
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
                 },
             },
@@ -262,6 +275,7 @@ export const fetchAsyncCreateItem = createAsyncThunk(
             createItem,
             {
                 headers: {
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
                 },
             },
@@ -281,7 +295,7 @@ export const fetchAsyncUpdateItem = createAsyncThunk(
             updateItem,
             {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
                 },
             },
@@ -299,7 +313,7 @@ export const fetchAsyncDeleteItem = createAsyncThunk(
             `${process.env.REACT_APP_API_URL_ITEM}/${id}`,
             {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
 
                 },
@@ -317,7 +331,7 @@ export const fetchAsyncDeleteFile = createAsyncThunk(
             `${process.env.REACT_APP_API_URL}/${id}`,
             {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
                     // Authorization: `JWT ${localStorage.localJWT}`,
 
                 },

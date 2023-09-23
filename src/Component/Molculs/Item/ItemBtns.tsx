@@ -19,7 +19,7 @@ const ItemBtns = () => {
   const isDisableRequired = 
     editedItem.itemName.length === 0 || 
     editedItem.departmentCode.length === 0 ||
-    editedItem.jinmaiName.length === 0 ||
+    editedItem.jinmeiName.length === 0 ||
     editedItem.phone.length === 0 
     // editedItem.lossCost.length === 0 ||
     // editedItem.recoveryMonths.length === 0 ||

@@ -13,7 +13,7 @@ const ItemUserInput = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
 
-    // console.log({...editedItem})
+    console.log({...editedItem})
     switch ( name )  {
         // case "itemClass": dispatch(editItem({...editedItem, itemClass: value}));
         // break;
@@ -21,7 +21,7 @@ const ItemUserInput = () => {
         break;
         case "departmentCode": dispatch(editItem({...editedItem, departmentCode: value}));
         break;
-        case "jinmaiName": dispatch(editItem({...editedItem, jinmaiName: value}));
+        case "jinmeiName": dispatch(editItem({...editedItem, jinmeiName: value}));
         break;
         case "phone": dispatch(editItem({...editedItem, phone: value}));
         break;
@@ -38,12 +38,36 @@ const ItemUserInput = () => {
         
     } 
     // dispatch(setInputValueTitle(e.target.value));s
-    // console.log(e.target.value)
+    // console.log(e.target.value) 
+    
+}
+//selectorで選ばれたの値をstateにセットする
+const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    dispatch(editItem({...editedItem, itemClass: value}))
+
 }
 
 
   return (
     <div className='font-bold'>
+        <div className='mt-1'>
+            <label className="label-text">
+            ♦種別　　　 &emsp;
+            {/* <input type="text" name = "itemClass" placeholder={"入力"} value = {editedItem.itemClass} onChange = {handleInputChange} className="input input-bordered input-xs  w-40" /> */}
+                <select className="select select-bordered select-xs w-40 max-w-xs mx-1" placeholder={"選択"} value={editedItem.itemClass} onChange = {handleSelectChange}> 
+                    { editedItem.itemClass === "新規登録" ? 
+                    <option selected>新規登録</option> :
+                    <>
+                    <option selected ></option>
+                    <option value={"継続（変更なし）"}>継続（変更なし）</option>
+                    <option value={"内容変更"}>内容変更</option>
+                    <option value={"金額変更"}>金額変更</option>
+                    </>
+                    }
+                </select>
+            </label>
+        </div>
        <div className='mt-1'>
             <label className="label-text">
                 ♦件名     &nbsp;
@@ -61,7 +85,7 @@ const ItemUserInput = () => {
         <div className='mt-1'>
             <label className="label-text">
                 ♦担当者名      &nbsp;
-                <input type="text" name = "jinmaiName" placeholder={"入力"} value = {editedItem.jinmaiName} onChange = {handleInputChange} className="input input-bordered input-xs  w-40" />
+                <input type="text" name = "jinmeiName" placeholder={"入力"} value = {editedItem.jinmeiName} onChange = {handleInputChange} className="input input-bordered input-xs  w-40" />
                 <span className="label-text-alt text-accent">＊</span>
             </label>
         </div>
